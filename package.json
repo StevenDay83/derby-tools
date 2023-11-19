@@ -1,0 +1,19 @@
+{
+  "name": "derby-tools",
+  "version": "1.0.0",
+  "description": "Derby client library",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Wolf Bearclaw",
+  "license": "MIT",
+  "dependencies": {
+    "bigi": "^1.4.2",
+    "bip-schnorr": "^0.6.7",
+    "crypto": "^1.0.1",
+    "nostr-tools": "^1.16.0",
+    "sha256": "^0.2.0",
+    "ws": "^8.14.2"
+  }
+}

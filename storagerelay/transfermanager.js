@@ -267,6 +267,10 @@ class DownloadTransferManager{
         });
     }
 
+    // deleteDataBlock(thisBlock, index, callback) {
+        
+    // }
+
     downloadDataFromBlock(thisBlock, index, callback) {
         let pointerId = thisBlock[0];
         // let pointerHash = thisBlock[1];

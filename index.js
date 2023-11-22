@@ -27,7 +27,7 @@ newPointer.signature = derbytools.PointerTools.generateSignature(sk, newPointer)
 console.log(JSON.stringify(newPointer,undefined,4));
 
 console.log(derbytools.PointerTools.verifySignature(newPointer));
-/*
+
 var relayClient = new derbytools.RelayTools.RelayClient("ws://localhost:8080");
 
 relayClient.on("CONNECT", () => {
@@ -78,12 +78,13 @@ relayClient.on("CONNECT", () => {
     //     }
     // });
 
-    const testCase = 3;
+    const testCase = 1;
 
     if (testCase == 0){
         // Add new pointer
         const crypto = require('crypto');
-        let mySK = derbytools.PointerTools.generatePrivateKey();
+        // let mySK = derbytools.PointerTools.generatePrivateKey();
+        let mySK = '6323a3644b43a5d26002e1254c6fef77b36030817c8a0e19da7cbdd2799c8f93';
         console.log("Secret Key: " + mySK);
         let myPK = derbytools.PointerTools.getPublicKey(mySK);
         let myRawData = crypto.randomBytes(512000);
@@ -120,7 +121,7 @@ relayClient.on("CONNECT", () => {
             pubkey:myPK,
             nonce:Math.floor(Math.random() * 10000),
             size:10000,
-            pointerhash:'563c7c9207e69b0cd7380f797467eca354c4bd27332d93d2b4a482f7fcd04498',
+            pointerhash:'eab09009a08dc10a69b96ab23d249c4dbd3531cfa70f9838d42de3f9db65eee9',
             timestamp:Math.floor(Date.now() / 1000)
         };
 
@@ -193,131 +194,133 @@ relayClient.on("CONNECT", () => {
 
 relayClient.connect();
 
-*/
-let transferTest = 4;
 
-if (transferTest == 0){
+// process.exit(0);
 
-    // Upload test
-    const fs = require('fs');
-    var relayClient1 = new derbytools.RelayTools.RelayClient("ws://nostr.messagepush.io:8081");
-    // var relayClient1 = new derbytools.RelayTools.RelayClient("ws://localhost:8080");
-    // var relayClient2 = new derbytools.RelayTools.RelayClient("ws://localhost:8080");
-    var messageManager1 = new derbytools.RelayTools.MessageManager(relayClient1);
-    // var messageManager2 = new derbytools.RelayTools.MessageManager(relayClient2);
+// let transferTest = 4;
+
+// if (transferTest == 0){
+
+//     // Upload test
+//     const fs = require('fs');
+//     var relayClient1 = new derbytools.RelayTools.RelayClient("ws://nostr.messagepush.io:8081");
+//     // var relayClient1 = new derbytools.RelayTools.RelayClient("ws://localhost:8080");
+//     // var relayClient2 = new derbytools.RelayTools.RelayClient("ws://localhost:8080");
+//     var messageManager1 = new derbytools.RelayTools.MessageManager(relayClient1);
+//     // var messageManager2 = new derbytools.RelayTools.MessageManager(relayClient2);
     
-    // var myMessagePool = [messageManager1, messageManager2];
-    var myMessagePool = [messageManager1];
+//     // var myMessagePool = [messageManager1, messageManager2];
+//     var myMessagePool = [messageManager1];
     
-    const fileToUpload = "/Users/stevenday/Downloads/bach.mp3";
-    const dataMapOutput = "bach.json";
+//     const fileToUpload = "/Users/stevenday/Downloads/bach.mp3";
+//     const dataMapOutput = "bach.json";
     
-    var myDataDescriptor = new derbytools.DataDescriptor();
-    myDataDescriptor.setFilename("bach.mp3");
-    myDataDescriptor.setDataMimeType("audio/mpeg");
+//     var myDataDescriptor = new derbytools.DataDescriptor();
+//     myDataDescriptor.setFilename("bach.mp3");
+//     myDataDescriptor.setDataMimeType("audio/mpeg");
     
     
-    var rawFileData = fs.readFileSync(fileToUpload);
-    var dataFileChunks;
+//     var rawFileData = fs.readFileSync(fileToUpload);
+//     var dataFileChunks;
     
-    if (rawFileData){
-        dataFileChunks = derbytools.BlobTools.chunkData(rawFileData, 512000);
+//     if (rawFileData){
+//         dataFileChunks = derbytools.BlobTools.chunkData(rawFileData, 512000);
     
-        // console.log(dataFileChunks)
+//         // console.log(dataFileChunks)
     
-        relayClient1.on("CONNECT", () => {
-            // relayClient2.on("CONNECT", () => {
-                var TransferManager = new derbytools.TransferManager.UploadTransferManager(myMessagePool, myDataDescriptor, "8948d27dc825eb943e6dad98d581be4e1870f16697b5f252b18b2262ebec737d");
-                TransferManager.importDataChunksList(dataFileChunks);
+//         relayClient1.on("CONNECT", () => {
+//             // relayClient2.on("CONNECT", () => {
+//                 var TransferManager = new derbytools.TransferManager.UploadTransferManager(myMessagePool, myDataDescriptor, "8948d27dc825eb943e6dad98d581be4e1870f16697b5f252b18b2262ebec737d");
+//                 TransferManager.importDataChunksList(dataFileChunks);
             
             
-                TransferManager.uploadFileData((err, relayUrl, pointerId, pointerHash, lastBlock, lastRelay) => {
-                    if (!err){
-                        console.log("Published pointer " + pointerId + " and data with hash " + pointerHash + " to relay " + relayUrl);
+//                 TransferManager.uploadFileData((err, relayUrl, pointerId, pointerHash, lastBlock, lastRelay) => {
+//                     if (!err){
+//                         console.log("Published pointer " + pointerId + " and data with hash " + pointerHash + " to relay " + relayUrl);
         
-                        if (lastBlock){
-                            console.log("Finished uploading " + pointerHash);
-                            if (lastRelay){
-                                console.log("File Upload completed");
-                                // console.log(JSON.stringify(TransferManager.DataDescriptor.generateDataDescriptorJSON(), undefined, 4));
-                                fs.writeFileSync(dataMapOutput, JSON.stringify(TransferManager.DataDescriptor.generateDataDescriptorJSON(), undefined, 4));
-                            }
-                        }
-                    }
-                });
+//                         if (lastBlock){
+//                             console.log("Finished uploading " + pointerHash);
+//                             if (lastRelay){
+//                                 console.log("File Upload completed");
+//                                 // console.log(JSON.stringify(TransferManager.DataDescriptor.generateDataDescriptorJSON(), undefined, 4));
+//                                 fs.writeFileSync(dataMapOutput, JSON.stringify(TransferManager.DataDescriptor.generateDataDescriptorJSON(), undefined, 4));
+//                             }
+//                         }
+//                     }
+//                 });
     
-            // });
+//             // });
     
-            // relayClient2.connect();
+//             // relayClient2.connect();
     
-        });
+//         });
     
-        relayClient1.connect();
-    }
+//         relayClient1.connect();
+//     }
     
-    // console.log(rawFileData);
+//     // console.log(rawFileData);
     
-    // Upload test end
-} else if (transferTest == 1) {
-    // Download test
-    const fs = require('fs');
-    let dataDescriptorFileData = fs.readFileSync("bach.json");
-    const outputDirectory = "/Users/stevenday/incoming";
+//     // Upload test end
+// } else if (transferTest == 1) {
+//     // Download test
+//     const fs = require('fs');
+//     let dataDescriptorFileData = fs.readFileSync("bach.json");
+//     const outputDirectory = "/Users/stevenday/incoming";
     
-    try {
-        let descriptorJSON = JSON.parse(dataDescriptorFileData);
+//     try {
+//         let descriptorJSON = JSON.parse(dataDescriptorFileData);
     
-        let loadedDataDescriptor = new derbytools.DataDescriptor();
-        loadedDataDescriptor.importDescriptor(descriptorJSON);
+//         let loadedDataDescriptor = new derbytools.DataDescriptor();
+//         loadedDataDescriptor.importDescriptor(descriptorJSON);
     
-        console.log(JSON.stringify(loadedDataDescriptor.generateDataDescriptorJSON(), undefined, 4));
+//         console.log(JSON.stringify(loadedDataDescriptor.generateDataDescriptorJSON(), undefined, 4));
     
-        let downloadManager = new derbytools.TransferManager.DownloadTransferManager();
-        downloadManager.setDataDescriptor(loadedDataDescriptor);
+//         let downloadManager = new derbytools.TransferManager.DownloadTransferManager();
+//         downloadManager.setDataDescriptor(loadedDataDescriptor);
     
-        console.log(downloadManager.getListOfRelays());
+//         console.log(downloadManager.getListOfRelays());
     
-        downloadManager.downloadFileData((err, binaryArray) => {
-            if (err){
-                console.error(err);
-            } else {
-                let newFileName = loadedDataDescriptor.metadata.filename ? loadedDataDescriptor.metadata.filename : loadedDataDescriptor.merkelRoot + ".file";
-                let rawData = derbytools.BlobTools.combineData(binaryArray, loadedDataDescriptor.metadata.size);
+//         downloadManager.downloadFileData((err, binaryArray) => {
+//             if (err){
+//                 console.error(err);
+//             } else {
+//                 let newFileName = loadedDataDescriptor.metadata.filename ? loadedDataDescriptor.metadata.filename : loadedDataDescriptor.merkelRoot + ".file";
+//                 let rawData = derbytools.BlobTools.combineData(binaryArray, loadedDataDescriptor.metadata.size);
     
-                fs.writeFileSync(outputDirectory + '/' + newFileName, rawData);
-                // console.log(binaryArray.length);
-            }
-        }, (numOfBlocksDownloaded, blockDownloaded, size, total) => {
-            let percentageComplete = Math.ceil((numOfBlocksDownloaded / total) * 100);
-            console.log(percentageComplete + '% Complete' + ' - Block ' + blockDownloaded + ' (' + size + ' bytes) downloaded');
-        });
-    } catch (e) {
-        console.error(e);
-    }
-    
-    
+//                 fs.writeFileSync(outputDirectory + '/' + newFileName, rawData);
+//                 // console.log(binaryArray.length);
+//             }
+//         }, (numOfBlocksDownloaded, blockDownloaded, size, total) => {
+//             let percentageComplete = Math.ceil((numOfBlocksDownloaded / total) * 100);
+//             console.log(percentageComplete + '% Complete' + ' - Block ' + blockDownloaded + ' (' + size + ' bytes) downloaded');
+//         });
+//     } catch (e) {
+//         console.error(e);
+//     }
     
     
-    // Download test end
-} else if (transferTest == 3) {
-    // Nostr test
-    const fs = require('fs');
-    let dataDescriptorFileData = fs.readFileSync("bach.json");
-    let loadedDataDescriptor = new derbytools.DataDescriptor();
-    let secretKey = '8948d27dc825eb943e6dad98d581be4e1870f16697b5f252b18b2262ebec737d';
     
-    let descriptorJSON = JSON.parse(dataDescriptorFileData);
-    loadedDataDescriptor.importDescriptor(descriptorJSON);
+    
+//     // Download test end
+// } else if (transferTest == 3) {
+//     // Nostr test
+//     const fs = require('fs');
+//     let dataDescriptorFileData = fs.readFileSync("bach.json");
+//     let loadedDataDescriptor = new derbytools.DataDescriptor();
+//     let secretKey = '8948d27dc825eb943e6dad98d581be4e1870f16697b5f252b18b2262ebec737d';
+    
+//     let descriptorJSON = JSON.parse(dataDescriptorFileData);
+//     loadedDataDescriptor.importDescriptor(descriptorJSON);
 
-    let nostrEventDescriptor = derbytools.NostrDescriptor.createEventFromDataDescriptor(loadedDataDescriptor, secretKey);
+//     let nostrEventDescriptor = derbytools.NostrDescriptor.createEventFromDataDescriptor(loadedDataDescriptor, secretKey);
 
-    console.log(JSON.stringify(nostrEventDescriptor, undefined, 4));
-    console.log(derbytools.NostrDescriptor.getNAddrFromEvent(nostrEventDescriptor, ["wss://relay.damus.io", "wss://nostr.mom"]));
-} else if (transferTest == 4) {
-    const fs = require('fs');
-    let nostrEventRaw = fs.readFileSync("nostrevent.json");
-    let nostrEventJSON = JSON.parse(nostrEventRaw);
+//     console.log(JSON.stringify(nostrEventDescriptor, undefined, 4));
+//     console.log(derbytools.NostrDescriptor.getNAddrFromEvent(nostrEventDescriptor, ["wss://relay.damus.io", "wss://nostr.mom"]));
+// } else if (transferTest == 4) {
+//     const fs = require('fs');
+//     let nostrEventRaw = fs.readFileSync("nostrevent.json");
+//     let nostrEventJSON = JSON.parse(nostrEventRaw);
 
-    let eventDescriptor = derbytools.NostrDescriptor.importDescriptorFromEvent(nostrEventJSON);
-    console.log(JSON.stringify(eventDescriptor.generateDataDescriptorJSON(), undefined, 4));
-}
+//     let eventDescriptor = derbytools.NostrDescriptor.importDescriptorFromEvent(nostrEventJSON);
+//     console.log(JSON.stringify(eventDescriptor.generateDataDescriptorJSON(), undefined, 4));
+// }

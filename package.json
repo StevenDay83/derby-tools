@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Wolf Bearclaw",
-  "license": "MIT",
+  "author": "Steven Day",
+  "license": "BSD-2-Clause",
   "dependencies": {
     "bigi": "^1.4.2",
     "bip-schnorr": "^0.6.7",

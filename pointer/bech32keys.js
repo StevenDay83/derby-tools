@@ -45,7 +45,17 @@ function decodeNetworkPrivateKey(bechString){
     return decodeNetworkKey(bechString, false);
 }
 
+function isEncodedPublicKey(thisString){
+    return thisString && thisString.startsWith(PublicKeyPrefix);
+}
+
+function isEncodedPrivateKey(thisString){
+    return thisString && thisString.startsWith(PrivateKeyPrefix);
+}
+
 module.exports.encodeNetworkPublicKey = encodeNetworkPublicKey;
 module.exports.encodeNetworkPrivateKey = encodeNetworkPrivateKey;
 module.exports.decodeNetworkPublicKey = decodeNetworkPublicKey;
 module.exports.decodeNetworkPrivateKey = decodeNetworkPrivateKey;
+module.exports.isEncodedPublicKey = isEncodedPublicKey;
+module.exports.isEncodedPrivateKey = isEncodedPrivateKey;

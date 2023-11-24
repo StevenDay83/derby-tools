@@ -9,6 +9,7 @@
   "author": "Steven Day",
   "license": "BSD-2-Clause",
   "dependencies": {
+    "bech32": "^2.0.0",
     "bigi": "^1.4.2",
     "bip-schnorr": "^0.6.7",
     "crypto": "^1.0.1",

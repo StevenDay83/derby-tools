@@ -5,3 +5,4 @@ exports.DataDescriptor = require("./datadescriptor/datadescriptor.js");
 exports.ProtocolError = require("./storagerelay/error.js");
 exports.TransferManager = require('./storagerelay/transfermanager.js');
 exports.NostrDescriptor = require("./datadescriptor/nostr.js");
+exports.Bech32Code = require("./pointer/bech32keys.js");

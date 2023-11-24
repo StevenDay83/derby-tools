@@ -9,9 +9,9 @@ let sampleData = "Hello World This is my data!";
 let dataHash = sha256(sampleData);
 
 
-console.log(sk);
 console.log(pubkey);
-console.log(dataHash);
+console.log(sk);
+// console.log(dataHash);
 
 let newPointer = {
     pubkey:pubkey,
@@ -20,6 +20,18 @@ let newPointer = {
     pointerhash:dataHash,
     nonce:100
 };
+
+
+let networkPublicKey = derbytools.Bech32Code.encodeNetworkPublicKey(pubkey);
+let networkPrivateKey = derbytools.Bech32Code.encodeNetworkPrivateKey(sk);
+
+console.log(networkPublicKey);
+console.log(networkPrivateKey);
+
+console.log(derbytools.Bech32Code.decodeNetworkPublicKey(networkPublicKey));
+console.log(derbytools.Bech32Code.decodeNetworkPrivateKey(networkPrivateKey));
+
+process.exit(0);
 
 newPointer.id = derbytools.PointerTools.generatePointerId(newPointer);
 newPointer.signature = derbytools.PointerTools.generateSignature(sk, newPointer);

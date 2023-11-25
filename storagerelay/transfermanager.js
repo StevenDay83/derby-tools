@@ -28,7 +28,7 @@ class UploadTransferManager {
                     let newPointer = {
                         pubkey:PointerTools.getPublicKey(this.SecretKey),
                         timestamp:Math.floor(Date.now() / 1000),
-                        nonce:Math.floor((Math.random() * (1000000 - 1)) + 1),
+                        nonce:Math.floor((Math.random() * (1000000 - 10)) + 10),
                         size:thisChunk.length,
                         pointerhash:sha256(thisChunk)
                     };

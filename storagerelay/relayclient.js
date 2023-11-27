@@ -1,4 +1,6 @@
-const ws = require('ws');
+// const ws = require('ws');
+require('websocket-polyfill');
+const ws = WebSocket;
 const crypto = require('crypto');
 const PROTOCOL_MESSAGE = require('./protocol');
 const PROTOCOL_ERROR = require('./error.js');

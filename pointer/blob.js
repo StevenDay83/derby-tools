@@ -60,26 +60,26 @@ module.exports.getBufferData = function(base64Data){
     return bufferData;
 }
 
-module.exports.publishBlobToFile = function (directory, bufferData, callback) {
-    if (Buffer.isBuffer(bufferData)){
-        const fs = require('fs');
-        try {
-            let fileName = module.exports.getDataHash(bufferData) + '.blob';
+// module.exports.publishBlobToFile = function (directory, bufferData, callback) {
+//     if (Buffer.isBuffer(bufferData)){
+//         const fs = require('fs');
+//         try {
+//             let fileName = module.exports.getDataHash(bufferData) + '.blob';
     
-            fs.writeFile(directory + '/' + fileName, bufferData, err => {
-                if (err) {
-                    callback(undefined, err);
-                } else {
-                    callback(fileName, undefined);
-                }
-            });
-        } catch (e) {
-            callback(undefined, e);
-        }
-    } else {
-        callback(undefined, new Error("Data is not Buffer"));
-    }
-}
+//             fs.writeFile(directory + '/' + fileName, bufferData, err => {
+//                 if (err) {
+//                     callback(undefined, err);
+//                 } else {
+//                     callback(fileName, undefined);
+//                 }
+//             });
+//         } catch (e) {
+//             callback(undefined, e);
+//         }
+//     } else {
+//         callback(undefined, new Error("Data is not Buffer"));
+//     }
+// }
 
 module.exports.isBase64Data = function (thisData){
     return true;

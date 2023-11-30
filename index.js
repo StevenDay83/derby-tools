@@ -3,10 +3,12 @@ const derbytools = require('./module.js');
 const sha256 = require('sha256');
 const { isBase64Data } = require('./pointer/blob.js');
 
-let sk = derbytools.PointerTools.generatePrivateKey();
+// let sk = derbytools.PointerTools.generatePrivateKey();
+let sk = '8c5925dc9bfd7b096a391dcb04f24923f416e06cab36c78bf4ead2f19c1fa408';
 let pubkey = derbytools.PointerTools.getPublicKey(sk);
 let sampleData = "Hello World This is my data!";
-let dataHash = sha256(sampleData);
+// let dataHash = sha256(sampleData);
+let dataHash = 'b1674191a88ec5cdd733e4240a81803105dc412d6c6708d53ab94fc248f4f553'
 
 
 console.log(pubkey);
@@ -16,10 +18,20 @@ console.log(sk);
 let newPointer = {
     pubkey:pubkey,
     timestamp:Math.floor(Date.now() / 1000),
-    size:sampleData.length,
+    size:184292,
     pointerhash:dataHash,
-    nonce:100
+    nonce:4
 };
+
+newPointer.id = derbytools.PointerTools.generatePointerId(newPointer);
+newPointer.signature = derbytools.PointerTools.generateSignature(sk, newPointer);
+
+let deletionCommand = ["POINTER", newPointer, "DELETE"];
+
+console.log(JSON.stringify(deletionCommand));
+
+// console.log(JSON.stringify(newPointer, undefined, 4));
+
 
 
 let networkPublicKey = derbytools.Bech32Code.encodeNetworkPublicKey(pubkey);

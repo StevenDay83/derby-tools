@@ -62,13 +62,14 @@ class UploadTransferManager {
 
                     this.MessageManagerPool.forEach(thisMessageManager => {
                         thisMessageManager.publishPointer(thisPointer, base64Data, (err, refId, pHash) => {
+                            let lastRelayForBlock = thisMessageManager == this.MessageManagerPool[this.MessageManagerPool.length - 1];
+                            let lastRelay = thisBlock == this.DataDescriptor.blobMap[this.DataDescriptor.blobMap.length - 1];
+                            // console.log("LastRelayForBlock: " + lastRelayForBlock);
+                            // console.log("lastRelay: " + lastRelay);
                             if (!err){
                                 // console.log("Uploading to relay: " + thisMessageManager.relayClient.relayURL);
                                 // console.log("Published pointer: " + refId);
                                 // console.log("Uploaded data with hash: " + pHash);
-
-                                let lastRelayForBlock = thisMessageManager == this.MessageManagerPool[this.MessageManagerPool.length - 1];
-                                let lastRelay = thisBlock == this.DataDescriptor.blobMap[this.DataDescriptor.blobMap.length - 1];
 
                                 callback(undefined, thisMessageManager.relayClient.relayURL, pointerId, pHash, lastRelayForBlock, lastRelay);
                                 
@@ -80,7 +81,7 @@ class UploadTransferManager {
                                 // }
                             } else {
                                 // console.error(err);
-                                callback(err);
+                                callback(err, thisMessageManager.relayClient.relayURL, pointerId, pHash, lastRelayForBlock, lastRelay);
                             }
                         });
                     });

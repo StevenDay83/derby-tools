@@ -1,6 +1,24 @@
-// const ws = require('ws');
-require('websocket-polyfill');
-const ws = WebSocket;
+let ws;
+
+if (isBrowser()){
+    require('websocket-polyfill');
+    ws = WebSocket;
+} else {
+    ws = require('ws');
+}
+
+function isBrowser(){
+    let isBrowser = true;
+
+    try {
+        isBrowser = (this == window);
+    } catch (e) {
+        isBrowser = false;
+    }
+
+    return isBrowser;
+}
+
 const crypto = require('crypto');
 const PROTOCOL_MESSAGE = require('./protocol');
 const PROTOCOL_ERROR = require('./error.js');
@@ -38,7 +56,7 @@ class RelayClient {
             onOpenCallback();
         });
 
-        this.wsClient.addEventListener("error", (event) => { 
+        this.wsClient.addEventListener("error", () => { 
             // console.error("Error connecting");
 
             let onErrorConnectingCallback = this.eventListeners["ERROR"];
@@ -46,9 +64,13 @@ class RelayClient {
             onErrorConnectingCallback();
         });
 
-        this.wsClient.addEventListener("message", (event) => {
-            this._handleMessages(event.data);
+        this.wsClient.addEventListener("message", (newMessage) => {
+            this._handleMessages(newMessage.data);
         });
+
+        // this.wsClient.onmessage = (newMessage => {
+        //     this._handleMessages(newMessage.data);
+        // });
     }
 
     send(message) {

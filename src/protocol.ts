@@ -1,0 +1,16 @@
+export const Commands = {
+  POINTER: 'POINTER',
+  REQUEST_POINTER: 'REQUEST',
+  REQUEST_DATA: 'REQDATA',
+  POINTER_PUBLISH: 'PUBLISH',
+  POINTER_DELETE: 'DELETE',
+} as const;
+
+export const Responses = {
+  ERROR: 'ERROR',
+  OK: 'OK',
+  DATA_OK: 'DATAOK',
+  POINTER_RESPONSE: 'POINTER',
+  REQUEST_POINTER_END: 'REQEND',
+  NOTICE: 'NOTICE',
+} as const;
